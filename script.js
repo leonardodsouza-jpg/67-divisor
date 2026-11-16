@@ -25,7 +25,8 @@ const pessoaPorId=id=>estado.pessoas.find(p=>p.id===id);
 const consome=(p,t)=>PERFIS[p.perfil]?.tipos.includes(t)??false;
 const statusDe=p=>p.pagamento||"nao";
 const PAGAMENTOS={hora:"Pagou na hora",atraso:"Pagou com atraso",nao:"Não pagou"};
-function salvar(){localStorage.setItem(CHAVE,JSON.stringify(estado));}
+let nuvemPronta=false;
+function salvar(){localStorage.setItem(CHAVE,JSON.stringify(estado));if(nuvemPronta&&window.Nuvem)Nuvem.salvar(estado);}
 function carregar(){
  try{const d=JSON.parse(localStorage.getItem(CHAVE));if(d&&Array.isArray(d.pessoas)&&Array.isArray(d.itens)){estado=d;estado.pessoas.forEach(p=>{if(!PERFIS[p.perfil])p.perfil="tudo";p.adiantado=Number(p.adiantado)||0;});estado.itens.forEach(i=>{i.extras=Array.isArray(i.extras)?i.extras:[];});}}
  catch(e){console.warn("Não foi possível ler os dados salvos.",e);}
@@ -71,5 +72,6 @@ function iniciar(){
  $("btn-copiar")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(textoResumo());$("msg-copiar").textContent="Resumo copiado. É só colar no WhatsApp.";}catch(e){$("msg-copiar").textContent="Não foi possível copiar automaticamente.";}});
  $("btn-txt")?.addEventListener("click",()=>{const blob=new Blob(["\uFEFF"+textoCompleto()],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="resumo-churrasco.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$("msg-copiar").textContent="Arquivo resumo-churrasco.txt baixado.";});
  atualizar();
+ if(window.Nuvem){Nuvem.carregar().then(d=>{if(d&&Array.isArray(d.pessoas)&&Array.isArray(d.itens)){localStorage.setItem(CHAVE,JSON.stringify(d));carregar();extrasForm.clear();}nuvemPronta=true;atualizar();Nuvem.avisar("Sincronizado ✓");}).catch(()=>Nuvem.avisar("Sem conexão: usando dados deste aparelho"));}
 }
 document.addEventListener("DOMContentLoaded",iniciar);

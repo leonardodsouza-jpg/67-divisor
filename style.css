@@ -174,3 +174,17 @@ label.check input { accent-color: var(--laranja); width: 1.1rem; height: 1.1rem;
 .proximo{background:var(--laranja);color:var(--preto)}
 button.secundario{font:inherit}
 @media(max-width:520px){.etapas{gap:.25rem}.etapas a{font-size:.88rem;padding:.6rem .2rem}.linha-item{flex-wrap:wrap}}
+
+/* ---- Login e barra do grupo ---- */
+.login-wrap{max-width:30rem;margin:2rem auto 3rem;padding:0 clamp(1rem,4vw,3rem)}
+.abas{display:flex;gap:.5rem;margin-bottom:1rem}
+.aba{flex:1;background:transparent;color:var(--cinza);border:1px solid var(--brasa)}
+.aba[aria-selected="true"]{background:var(--laranja);color:var(--preto);border-color:var(--laranja)}
+input[type=password]{font:inherit;color:var(--creme);background:var(--brasa);border:2px solid transparent;border-radius:4px;padding:.55rem .65rem;width:100%}
+input[type=password]:focus-visible{outline:3px solid var(--laranja-claro);outline-offset:2px}
+[hidden]{display:none!important}
+.conta{margin-left:auto;display:grid;justify-items:end;gap:.2rem;font-size:.9rem;color:var(--cinza)}
+.conta-nome{color:var(--creme);font-weight:700}
+.conta-status{font-size:.8rem;min-height:1.1em}
+.conta .secundario{padding:.25rem .8rem}
+@media(max-width:520px){.topo{flex-wrap:wrap}.conta{margin-left:0;justify-items:start;width:100%;grid-auto-flow:column;align-items:center;justify-content:space-between}}
