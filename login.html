@@ -7,8 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="supabase-config.js"></script>
 <script src="auth.js"></script>
 </head>
 <body>
@@ -52,8 +50,8 @@
   $("aba-entrar").addEventListener("click",()=>definirModo("entrar"));
   $("aba-criar").addEventListener("click",()=>definirModo("criar"));
 
-  if(!window.Auth||!Auth.configurado){erro("O Supabase ainda não foi configurado. Preencha o arquivo supabase-config.js.");$("btn-login").disabled=true;return;}
-  Auth.sessao().then(s=>{if(s)location.replace("index.html");});
+  if(!window.Auth||!Auth.configurado){erro("O servidor ainda não foi configurado.");$("btn-login").disabled=true;return;}
+  Auth.sessao().then(s=>{if(s)location.replace("index.html");}).catch(err=>erro(err.message));
 
   $("form-login").addEventListener("submit",async e=>{
     e.preventDefault();$("msg-login").hidden=true;

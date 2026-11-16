@@ -9,23 +9,33 @@ ARQUIVOS
 - style.css: identidade visual compartilhada
 
 COMO EXECUTAR
-1. Extraia a pasta 67-Divisor.
-2. Abra index.html em um navegador moderno (Chrome, Edge, Firefox).
-3. Navegue pelo menu superior entre Pessoas, Produtos e Pagamentos.
+1. Instale o Node.js 20 ou mais recente.
+2. Na pasta do projeto, execute: npm install
+3. Configure DATABASE_URL no arquivo .env.local (ou no ambiente do servidor).
+   O valor é obtido no Neon Console; nunca o exponha em arquivos enviados ao navegador.
+4. Execute: npm start
+5. Abra http://localhost:3000 e navegue entre Pessoas, Produtos e Pagamentos.
+
+NEON
+O servidor usa @neondatabase/serverless para acessar o Postgres pela API HTTP do Neon.
+Na inicialização, cria as tabelas divisor_groups, divisor_group_data e divisor_sessions.
+Senhas são armazenadas com scrypt; sessões ficam em cookies HttpOnly e os dados de cada
+grupo são isolados no servidor. .env.local é local e não deve ser publicado.
+
+Para validar sintaxe e build: npm run build
 
 PUBLICAÇÃO
-Envie todos os arquivos da pasta 67-Divisor para a mesma pasta do seu site/servidor.
-Mantenha os nomes dos arquivos e a estrutura. A página inicial será index.html.
-Não é necessário instalar dependências. A fonte Zilla Slab é carregada do Google Fonts;
-sem internet, o navegador usa fontes alternativas.
+Publique o servidor Node.js, os arquivos do projeto e as dependências. Configure DATABASE_URL
+como variável de ambiente no provedor de hospedagem e defina NODE_ENV=production para
+habilitar cookies Secure. Não publique .env.local. O servidor usa a porta PORT fornecida
+pelo provedor (ou 3000 localmente). A fonte Zilla Slab é carregada do Google Fonts; sem
+internet, o navegador usa fontes alternativas.
 
 DADOS E MIGRAÇÃO
-Os dados são salvos localmente no navegador pela chave 67divisor-v5.
-A estrutura original {pessoas, itens} e os campos existentes são mantidos.
-A primeira abertura lê os dados já gravados nessa chave e continua a utilizá-los.
-Os dados ficam no navegador/dispositivo em que foram cadastrados; localStorage não
-sincroniza automaticamente entre dispositivos ou navegadores. Faça backup antes de
-limpar dados ou trocar de navegador.
+Os dados continuam em cache local pela chave 67divisor-v5 e são sincronizados no Neon
+por grupo. A estrutura original {pessoas, itens} e os campos existentes são mantidos.
+Dados locais existentes são usados quando um grupo ainda não tem dados no servidor.
+Faça backup antes de limpar dados ou trocar de navegador.
 
 OBSERVAÇÃO
 O exemplo pronto substitui os dados existentes após confirmação. "Limpar tudo" também

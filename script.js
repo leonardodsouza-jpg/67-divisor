@@ -72,6 +72,6 @@ function iniciar(){
  $("btn-copiar")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(textoResumo());$("msg-copiar").textContent="Resumo copiado. É só colar no WhatsApp.";}catch(e){$("msg-copiar").textContent="Não foi possível copiar automaticamente.";}});
  $("btn-txt")?.addEventListener("click",()=>{const blob=new Blob(["\uFEFF"+textoCompleto()],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="resumo-churrasco.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$("msg-copiar").textContent="Arquivo resumo-churrasco.txt baixado.";});
  atualizar();
- if(window.Nuvem){Nuvem.carregar().then(d=>{if(d&&Array.isArray(d.pessoas)&&Array.isArray(d.itens)){localStorage.setItem(CHAVE,JSON.stringify(d));carregar();extrasForm.clear();}nuvemPronta=true;atualizar();Nuvem.avisar("Sincronizado ✓");}).catch(()=>Nuvem.avisar("Sem conexão: usando dados deste aparelho"));}
+ if(window.Nuvem){Nuvem.carregar().then(d=>{if(d&&Array.isArray(d.pessoas)&&Array.isArray(d.itens)){localStorage.setItem(CHAVE,JSON.stringify(d));carregar();extrasForm.clear();}nuvemPronta=true;atualizar();Nuvem.avisar("Sincronizado ✓");}).catch(e=>{nuvemPronta=true;Nuvem.avisar("Sem conexão: dados locais mantidos");console.error("Could not load group data from Neon.",e);Nuvem.salvar(estado);});}
 }
 document.addEventListener("DOMContentLoaded",iniciar);
